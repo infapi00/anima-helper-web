@@ -15,11 +15,7 @@
     <script type="text/javascript" language="javascript" src="assets/animah-js/main.js"></script>
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-          $('#players').dataTable(
-              { 'bFilter': false,
-                'bInfo': false,
-                'bPaginate': false
-              } );
+          onDocumentReady();
       } );
     </script>
 
@@ -34,28 +30,18 @@
       <div class="spacer"></div>
       <div class="spacer"></div>
 
-      <table cellpadding="0" cellspacing="0" border="0" class="display" id="players" width="100%">
+      <table cellpadding="0" cellspacing="0" border="0" class="display" id="player_table" width="100%">
 	<thead>
 	  <tr>
 	    <th>Name</th>
+	    <th>Base</th>
+	    <th>Random</th>
 	    <th>Total</th>
-	    <th>Surprise</th>
-	    <th>Damage</th>
 	  </tr>
 	</thead>
 	<tbody>
-	  <tr>
-	    <td>Lorenzo</td>
-	    <td class="center">45</td>
-	    <td></td>
-	    <td class="center">30</td>
-	  </tr>
-	  <tr>
-	    <td>Atanasio</td>
-	    <td class="center">85</td>
-	    <td></td>
-	    <td class="center">10</td>
-	  </tr>
+          <!-- Javascript code will fill this -->
+        </tbody>
       </table>
     </div>
   </body>
