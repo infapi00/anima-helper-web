@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" type="image/ico" href="media/images/anima.ico" />
+
+    <title>AnimaHelperWeb</title>
+    <style type="text/css" title="currentStyle">
+      @import "media/css/demo_page.css";
+      @import "media/css/jquery.dataTables.css";
+    </style>
+
+    <script type="text/javascript" language="javascript" src="media/js/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+      $('#players').dataTable();
+      } );
+    </script>
+
+  </head>
+
+  <body id="dt_example">
+    <div id="container">
+      <div class="full_width big">
+	AnimaHelperWeb
+      </div>
+
+      <table cellpadding="0" cellspacing="0" border="0" class="display" id="players" width="100%">
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>Total</th>
+	    <th>Surprise</th>
+	    <th>Damage</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>Lorenzo</td>
+	    <td class="center">45</td>
+	    <td></td>
+	    <td class="center">30</td>
+	  </tr>
+	  <tr>
+	    <td>Atanasio</td>
+	    <td class="center">85</td>
+	    <td></td>
+	    <td class="center">10</td>
+	  </tr>
+      </table>
+    </div>
+  </body>
+</html>
