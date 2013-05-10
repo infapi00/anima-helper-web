@@ -41,6 +41,9 @@ function updateTable () {
     }
 }
 
+function onNewRound () {
+    new_round ();
+}
 //FIXME: bad name and/or place
 
 function new_round () {
