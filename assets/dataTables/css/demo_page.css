@@ -36,7 +36,6 @@
 	font-weight: bold;
 	line-height: 1.6em;
 	color: #4E6CA3;
-        text-align: center;
 }
 
 #dt_example .spacer {
@@ -117,7 +116,5 @@
 	background-color: #F7F7F9;
 
 	border: 1px solid #E1E1E8;
-	-webkit-border-radius: 3px;
-	   -moz-border-radius: 3px;
 	        border-radius: 3px;
 }
