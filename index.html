@@ -1,12 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, charset=utf-8">
     <link rel="shortcut icon" type="image/ico" href="assets/images/anima.ico" />
 
     <title>AnimaHelperWeb</title>
     <style type="text/css" title="currentStyle">
       @import "assets/dataTables/css/demo_page.css";
+      @import "assets/dataTables/css/demo_table.css";
       @import "assets/dataTables/css/jquery.dataTables.css";
       @import "assets/jquery/css/jquery.mobile-1.3.1.min.css";
     </style>
@@ -24,12 +25,21 @@
   </head>
 
   <body>
-    <div data-role="page">
+    <div data-role="page" id="main">
       <div data-role="header">
 	<h1>AnimaHelperWeb</h1>
       </div>
 
       <div data-role="content">
+        <div>
+          <a href="#menu" data-role="button" data-icon="gear" data-iconpos="notext" data-inline="true">Menu</a>
+          <a onClick="onNewRound();" data-role="button" data-theme="b" data-inline="true">New round</a>
+          <a onClick="onNewHit();" data-role="button" data-theme="a" data-inline="true">New Hit</a>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="player_table" width="100%">
 	  <thead>
 	    <tr>
@@ -43,7 +53,75 @@
             <!-- Javascript code will fill this -->
           </tbody>
         </table>
-        <a onClick="onNewRound();" data-role="button" data-icon="star" data-theme="a">New round</a>
       </div> <!-- /content -->
+
+      <div data-role="footer">
+        <a onClick="onNewRound();" data-role="button" data-inline="false">New round</a>
+      </div>
+
+    </div><!-- /page main -->
+
+    <!-- ###################################################################### -->
+
+    <div data-role="page" id="menu">
+      <div data-role="header">
+        <h1>Menu</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <a href="#player" data-role="button" data-theme="b">New player</a>
+        </div>
+        <div>
+          <a href="#warning-remove" data-role="button" data-theme="b">Remove current player</a>
+        </div>
+        <div>
+          <a href="#player" data-role="button" data-theme="b">Edit current player</a>
+        </div>
+      </div> <!-- content -->
+
+      <div data-role="footer">
+        <a href="#main" data-role="button" data-icon="back" data-theme="b">Back</a>
+      </div>
+    </div> <!-- /page menu -->
+
+    <div data-role="page" id="player">
+      <div data-role="header">
+        <h1>Edit player</h1>
+      </div>
+
+      <div data-role="content">
+        <!-- FIXME: FILL ME with a form!! -->
+        <!-- FIXME: FILL ME with existing data if Im editing a existing player -->
+
+        <div>
+          <!-- FIXME: these buttons should do something -->
+          <a href="#main" data-role="button" data-theme="b" data-inline="true">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+        </div>
+      </div> <!-- content -->
+
+    </div> <!-- /page player -->
+
+    <!-- ###################################################################### -->
+
+    <div data-role="page" id="warning-remove">
+      <div data-role="header">
+        <!-- FIXME: add the name of the player -->
+        <h1>Warning: do you really want to remove player</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <!-- FIXME: these buttons should do something -->
+          <a href="#main" data-role="button" data-theme="b" data-inline="true">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+        </div>
+      </div> <!-- content -->
+
+    </div> <!-- /page player -->
+
+    <!-- ###################################################################### -->
+
   </body>
 </html>
