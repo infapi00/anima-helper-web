@@ -11,8 +11,8 @@
       @import "assets/jquery/css/jquery.mobile-1.3.1.min.css";
     </style>
 
-    <script type="text/javascript" language="javascript" src="assets/jquery/jquery.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/jquery/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript" language="javascript" src="assets/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="assets/jquery/jquery.mobile-1.3.1.min.js"></script>
     <script type="text/javascript" language="javascript" src="assets/dataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="assets/animah-js/main.js"></script>
     <script type="text/javascript" charset="utf-8">
@@ -23,30 +23,27 @@
 
   </head>
 
-  <body id="dt_example">
-    <div id="container">
-      <div class="full_width big">
-	AnimaHelperWeb
-      </div>
-
-      <div class="spacer"></div>
-      <div class="spacer"></div>
-
-      <table cellpadding="0" cellspacing="0" border="0" class="display" id="player_table" width="100%">
-	<thead>
-	  <tr>
-	    <th>Name</th>
-	    <th>Base</th>
-	    <th>Random</th>
-	    <th>Total</th>
-	  </tr>
-	</thead>
-	<tbody>
-          <!-- Javascript code will fill this -->
-        </tbody>
-      </table>
+  <body>
+    <div data-role="page">
       <div data-role="header">
-        <a onClick="onNewRound();" data-role="button" data-icon="star" >New round</a>
+	<h1>AnimaHelperWeb</h1>
       </div>
+
+      <div data-role="content">
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="player_table" width="100%">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      <th>Base</th>
+	      <th>Random</th>
+	      <th>Total</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+            <!-- Javascript code will fill this -->
+          </tbody>
+        </table>
+        <a onClick="onNewRound();" data-role="button" data-icon="star" data-theme="a">New round</a>
+      </div> <!-- /content -->
   </body>
 </html>
