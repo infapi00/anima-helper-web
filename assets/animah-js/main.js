@@ -25,7 +25,7 @@ var players = [ ["Lorenzo", 45, 0, 0, 0],
                 ["Fatima", 75, 0, 0, 0],
                 ["Uriel", 70, 0, 0, 0]];
 
-var player_table;
+var playerTable;
 var myMath = null;
 var DEBUG = true;
 
@@ -34,45 +34,45 @@ var SURPRISE_THRESHOLD = 150;
 var CRITIC_THROW_THRESHOLD = 90;
 var INITIATIVE_CRITICAL_FAIL = [-125, -100, -75];
 
-function onDocumentReady () {
+function onDocumentReady() {
 
     /* Add a click handler for the delete row */
-    $('#delete').click( function() {
-	var anSelected = fnGetSelected( player_table );
-	if ( anSelected.length !== 0 ) {
-	    player_table.fnDeleteRow( anSelected[0] );
+    $('#delete').click(function() {
+	var anSelected = fnGetSelected(playerTable );
+	if (anSelected.length !== 0) {
+	    playerTable.fnDeleteRow(anSelected[0]);
 	}
     } );
 
-    player_table = $('#player_table').dataTable( { 'bFilter': false,
-                                                   'bInfo': false,
-                                                   'bPaginate': false,
-                                                   'aoColumns': [ null, {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}]
-                                                 } );
+    playerTable = $('#player_table').dataTable({ 'bFilter': false,
+                                                 'bInfo': false,
+                                                 'bPaginate': false,
+                                                 'aoColumns': [ null, {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}]
+                                               } );
 
     myMath = new AnimahMath();
-    updateTable ();
+    updateTable();
 }
 
 /* Get the rows which are currently selected */
-function fnGetSelected( oTableLocal )
+function fnGetSelected(oTableLocal)
 {
     return oTableLocal.$('tr.row_selected');
 }
 
-function updateTable () {
-    player_table.fnClearTable();
+function updateTable() {
+    playerTable.fnClearTable();
     for (i = 0; i < players.length; i++) {
         players[i][4] = players[i][1] + players[i][2];
-        player_table.fnAddData(players[i]);
+        playerTable.fnAddData(players[i]);
     }
 
-    player_table.$('tbody tr').click (function( e ) {
-        if ( $(this).hasClass('row_selected') ) {
+    playerTable.$('tbody tr').click (function(e) {
+        if ($(this).hasClass('row_selected')) {
 	    $(this).removeClass('row_selected');
         }
         else {
-	    player_table.$('tr.row_selected').removeClass('row_selected');
+	    playerTable.$('tr.row_selected').removeClass('row_selected');
 	    $(this).addClass('row_selected');
         }
     });
@@ -90,12 +90,12 @@ function onNewHit () {
 //FIXME: bad name and/or place
 
 function new_round () {
-    var dice_roll;
+    var diceRoll;
 
     for (i = 0; i < players.length; i++) {
-        dice_roll = myMath.get_dice_roll (AnimahRollType.INITIATIVE);
-        players[i][2] = dice_roll[0];
-        players[i][3] = dice_roll[1];
+        diceRoll = myMath.getDiceRoll (AnimahRollType.INITIATIVE);
+        players[i][2] = diceRoll[0];
+        players[i][3] = diceRoll[1];
     }
 
     updateTable();
@@ -116,132 +116,54 @@ function AnimahMath() {
 }
 
 // return [total, num_opened]
-AnimahMath.prototype.get_dice_roll = function(roll_type) {
+AnimahMath.prototype.getDiceRoll = function(rollType) {
     var open = 0;
-    var dice_roll = 0;
+    var diceRoll = 0;
     var total = 0;
     var threshold = CRITIC_THROW_THRESHOLD;
-    var throw_again = false;
+    var throwAgain = false;
 
     do {
-        dice_roll = getRandomInt(1,100);
+        diceRoll = getRandomInt(1,100);
 
-        switch (roll_type) {
+        switch (rollType) {
         case AnimahRollType.NORMAL:
         case AnimahRollType.INITIATIVE:
-            if (dice_roll >= threshold) {
+            if (diceRoll >= threshold) {
                 open++;
-                throw_again = true;
+                throwAgain = true;
                 if (threshold < 100) threshold++;
             } else {
-                throw_again = false;
+                throwAgain = false;
             }
             break;
         case AnimahRollType.RESISTANCE:
-            throw_again = false;
+            throwAgain = false;
             break;
         }
 
         // critical fail
 
-        if ((dice_roll < 4) && (open == 0)) {
-            switch (roll_type) {
+        if ((diceRoll < 4) && (open == 0)) {
+            switch (rollType) {
             case AnimahRollType.NORMAL:
-                var critical_confirmation = getRandomInt(1,100);
-                dice_roll = dice_roll - critical_confirmation;
+                var criticalConfirmation = getRandomInt(1,100);
+                diceRoll = diceRoll - criticalConfirmation;
                 break;
             case AnimahRollType.INITIATIVE:
-                dice_roll = INITIATIVE_CRITICAL_FAIL [dice_roll - 1];
+                diceRoll = INITIATIVE_CRITICAL_FAIL [diceRoll - 1];
                 break;
             case AnimahRollType.RESISTANCE:
                 break;
             }
         }
 
-        total += dice_roll;
-    } while (throw_again);
+        total += diceRoll;
+    } while (throwAgain);
 
     return [total, open];
 }
 
-// Tests
-
-// mimic test2 on old anima helper
-function onTest2() {
-    test2 (100000);
-}
-
-function test_get_dice_roll (type, num_samples) {
-    var total = 0;
-    var max_value = 0;
-    var min_value = 100;
-    var samples = new Array();
-    var num_opened = [0,0,0,0,0,0,0,0,0,0];
-    var average_opened = new Array();
-    var average = 0;
-    var more_than_average = 0;
-    var max_value_opened = 0;
-    var variance = 0;
-
-    myMath = new AnimahMath();
-
-    for (i = 0; i < num_samples; i++) {
-        dice_roll = myMath.get_dice_roll (type);
-
-        if (dice_roll[0] > max_value) {
-            max_value = dice_roll[0];
-            max_value_opened = dice_roll[1];
-        }
-        if (dice_roll[0] < min_value)
-            min_value = dice_roll[0];
-        samples[i] = dice_roll[0];
-
-        for (c = 0; c < 10; c++)
-            if (dice_roll[1] > c)
-                num_opened[c]++;
-
-        total += dice_roll[0];
-    }
-
-    average = total / num_samples;
-    for (c = 0; c < 10; c++)
-        average_opened[c] = (num_opened[c]*100) / num_samples;
-
-    /* we use this average to compute the variance and std variance */
-    total = 0;
-    for (i = 0; i < num_samples; i++)  {
-        total += (samples[i] - average) * (samples[i] - average);
-        if (samples[i] > average)
-            more_than_average++;
-    }
-    variance = total / num_samples;
-    more_than_average = (more_than_average * 100) / num_samples;
-
-    log("AVERAGE: " + average);
-    log("VARIANCE: " + variance);
-    log("STD VARIANCE: " + Math.sqrt(variance));
-    log("MINIMUM VALUE: " +  min_value);
-    log("MAXIMUM VALUE: " + max_value + "(" + max_value_opened + ")");
-    c = 0;
-    while (num_opened[c] > 0) {
-        log (" %% OPENED MORE THAT "+c+": "+average_opened[c]);
-        c++;
-    }
-    log("%% GREATER THAN AVERAGE: "+more_than_average);
-}
-
-function test2 (num_samples) {
-    log("NUM SAMPLES = "+num_samples);
-    log("****************************************");
-    log("ANIMA DATA FOR NORMAL");
-    test_get_dice_roll (AnimahRollType.NORMAL, num_samples);
-    log("****************************************");
-    log("ANIMA DATA FOR INITIATIVE");
-    test_get_dice_roll (AnimahRollType.INITIATIVE, num_samples);
-    log("****************************************");
-    log("ANIMA DATA FOR RESISTANCE");
-    test_get_dice_roll (AnimahRollType.RESISTANCE, num_samples);
-}
 //Aux methods
 function log(message) {
     if (DEBUG) {
