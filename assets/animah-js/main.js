@@ -34,6 +34,8 @@ var SURPRISE_THRESHOLD = 150;
 var CRITIC_THROW_THRESHOLD = 90;
 var INITIATIVE_CRITICAL_FAIL = [-125, -100, -75];
 
+var editingMode = true;
+
 function onDocumentReady() {
 
     /* Add a click handler for the delete row */
@@ -87,8 +89,38 @@ function onNewHit () {
     //FIXME: implement this
 }
 
-//FIXME: bad name and/or place
+function onNewPlayer() {
+    editingMode = false;
+    cleanEditPlayerForm();
+}
 
+function onAcceptEditPlayer() {
+    var name = $("#name").val();
+    var base = $("#base").val();
+    var modifier = $("#modifier").val();
+    var damage = $("#damage").val();
+
+    if (editingMode) {
+        // FIXME: fill me!!
+    } else { // So adding a player
+        debugLog("Adding player=("+name+","+base+","+modifier+","+damage+")");
+        //FIXME: is adding base and others as a string
+        players.push([name, base, 0, 0, 0]);
+    }
+
+    updateTable();
+}
+
+// Edit player form methods
+function cleanEditPlayerForm() {
+    $("#name").val("");
+    $("#base").val("");
+    $("#modifier").val("");
+    $("#damage").val("");
+}
+
+
+//FIXME: bad name and/or place
 function new_round () {
     var diceRoll;
 
@@ -100,6 +132,8 @@ function new_round () {
 
     updateTable();
 }
+
+// Player
 
 // Math section
 var AnimahRollType = {
@@ -165,7 +199,7 @@ AnimahMath.prototype.getDiceRoll = function(rollType) {
 }
 
 //Aux methods
-function log(message) {
+function debugLog(message) {
     if (DEBUG) {
         console.log(message);
     }

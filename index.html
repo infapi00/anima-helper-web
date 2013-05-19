@@ -69,9 +69,10 @@
         <h1>Menu</h1>
       </div>
 
+      <!-- FIXME: should dim remove/edit current player if no one is selected -->
       <div data-role="content">
         <div>
-          <a href="#player" data-role="button" data-theme="b">New player</a>
+          <a href="#player" data-role="button" data-theme="b" onClick="onNewPlayer()">New player</a>
         </div>
         <div>
           <a href="#warning-remove" data-role="button" data-theme="b">Remove current player</a>
@@ -86,18 +87,26 @@
       </div>
     </div> <!-- /page menu -->
 
+    <!-- ###################################################################### -->
+
     <div data-role="page" id="player">
       <div data-role="header">
         <h1>Edit player</h1>
       </div>
 
       <div data-role="content">
-        <!-- FIXME: FILL ME with a form!! -->
+
+        <label for="name">Name</label><input id="name"/>
+        <!-- FIXME: how to force following ones to be "numbers only"? -->
+        <label for="base">Base</label><input id="base"/>
+        <label for="modifier">Modifier</label><input id="modifier"/>
+        <label for="damage">Damage</label><input id="damage"/>
+
         <!-- FIXME: FILL ME with existing data if Im editing a existing player -->
 
         <div>
           <!-- FIXME: these buttons should do something -->
-          <a href="#main" data-role="button" data-theme="b" data-inline="true">Accept</a>
+          <a href="#main" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptEditPlayer()">Accept</a>
           <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
         </div>
       </div> <!-- content -->
