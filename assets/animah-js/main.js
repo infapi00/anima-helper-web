@@ -108,11 +108,11 @@ var AnimahRollType = {
     RESISTANCE:2
 };
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+function AnimahMath() {
 }
 
-function AnimahMath() {
+AnimahMath.prototype.getRandomInt = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // return [total, num_opened]
@@ -124,7 +124,7 @@ AnimahMath.prototype.getDiceRoll = function(rollType) {
     var throwAgain = false;
 
     do {
-        diceRoll = getRandomInt(1,100);
+        diceRoll = this.getRandomInt(1,100);
 
         switch (rollType) {
         case AnimahRollType.NORMAL:
@@ -147,7 +147,7 @@ AnimahMath.prototype.getDiceRoll = function(rollType) {
         if ((diceRoll < 4) && (open == 0)) {
             switch (rollType) {
             case AnimahRollType.NORMAL:
-                var criticalConfirmation = getRandomInt(1,100);
+                var criticalConfirmation = this.getRandomInt(1,100);
                 diceRoll = diceRoll - criticalConfirmation;
                 break;
             case AnimahRollType.INITIATIVE:

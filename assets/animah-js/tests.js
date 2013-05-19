@@ -1,3 +1,4 @@
+// -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 /**
  * I'm not are not using qunit or something like that because for
  * current tests, I'm more interested execute a test, and see the
@@ -27,6 +28,57 @@ function getLog() {
 }
 
 //Tests
+
+//********************************************************************************
+/**
+ * test1: Checks the distribution of AnimahMath.getRandomInt (1,100)
+ */
+function test1(numSamples) {
+    var finalValue;
+    var i = 0;
+    var error = 0;
+    var finalTable = [];
+
+    myMath = new AnimahMath();
+
+    for (i = 0; i < 100; i++)
+        finalTable[i] = 0;
+
+    for (i = 0; i < numSamples; i++) {
+        finalValue = myMath.getRandomInt(1, 100);
+
+      if ((finalValue < 1) || (finalValue > 100)) {
+          log("Error: value = %i", finalValue);
+          error ++;
+      } else {
+        finalTable[finalValue - 1]++;
+      }
+    }
+
+    log ("NUMBER OF SAMPLES: " + numSamples);
+    log ("NUMBER OF ERRORS " + error + ", " + 100*error / numSamples);
+    log ("FINAL TABLE");
+    for (i = 0; i < 25; i ++ ) {
+        var line = "";
+        for (c = 0; c < 4; c++)
+            line = line + "\t" + (i + c*25 + 1) + "=" + 100*finalTable[i+c*25]/numSamples;
+
+        log(line);
+    }
+
+  return true;
+}
+
+// mimic test1 on old anima helper
+function onTest1() {
+    clearLog();
+
+    test1(100000);
+
+    $('#test-output').text(getLog());
+}
+
+//********************************************************************************
 function testGetDiceRoll(type, numSamples) {
     var total = 0;
     var maxValue = 0;
