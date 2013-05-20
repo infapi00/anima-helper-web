@@ -36,18 +36,11 @@ var editingMode = true;
 
 function onDocumentReady() {
 
-    /* Add a click handler for the delete row */
-    $('#delete').click(function() {
-	var anSelected = fnGetSelected(playerTable );
-	if (anSelected.length !== 0) {
-	    playerTable.fnDeleteRow(anSelected[0]);
-	}
-    } );
-
     playerTable = $('#player_table').dataTable({ 'bFilter': false,
                                                  'bInfo': false,
                                                  'bPaginate': false,
-                                                 'aoColumns': [ null, {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}]
+                                                 'aoColumns': [ null, null, {'sClass': 'center'}, {'sClass': 'center'},
+                                                                {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}]
                                                } );
 
     myMath = new AnimahMath();
@@ -65,6 +58,7 @@ function onDocumentReady() {
     players.push(fatima);
 
     updateTable();
+    updateElementsBasedOnSelectedPlayer();
 }
 
 /* Get the rows which are currently selected */
@@ -73,11 +67,18 @@ function fnGetSelected(oTableLocal)
     return oTableLocal.$('tr.row_selected');
 }
 
+function updateElementsBasedOnSelectedPlayer() {
+    if (getSelectedPlayer() != null)
+        $('#new_hit').removeClass('ui-disabled');
+    else
+        $('#new_hit').addClass('ui-disabled');
+}
+
 function updateTable() {
     playerTable.fnClearTable();
     for (i = 0; i < players.length; i++) {
-        playerTable.fnAddData([players[i].name, players[i].base, players[i].diceRoll,
-                               players[i].open, players[i].getTotalRoll()]);
+        playerTable.fnAddData([i, players[i].name, players[i].base, players[i].diceRoll,
+                               players[i].open, players[i].getTotalRoll(), players[i].damage]);
     }
 
     playerTable.$('tbody tr').click (function(e) {
@@ -88,6 +89,8 @@ function updateTable() {
 	    playerTable.$('tr.row_selected').removeClass('row_selected');
 	    $(this).addClass('row_selected');
         }
+
+        updateElementsBasedOnSelectedPlayer();
     });
 }
 
@@ -96,8 +99,9 @@ function onNewRound() {
     newRound();
 }
 
-function onNewHit () {
-    //FIXME: implement this
+function onNewHit() {
+    debugLog ("Cleaning hit value");
+    $("#hit_value").val("");
 }
 
 function onNewPlayer() {
@@ -127,6 +131,15 @@ function onAcceptEditPlayer() {
     updateTable();
 }
 
+function onHitPlayer() {
+    player = getSelectedPlayer();
+
+    if (player) {
+        player.damage += parseInt($("#hit_value").val());
+    }
+    updateTable();
+}
+
 // Edit player form methods
 function cleanEditPlayerForm() {
     $("#name").val("");
@@ -143,6 +156,18 @@ function newRound () {
     }
 
     updateTable();
+}
+
+function getSelectedPlayer() {
+    var anSelected = fnGetSelected(playerTable);
+
+    if (anSelected.length != 0) {
+        var index = parseInt(anSelected[0].cells[0].innerHTML);
+
+        return players[index];
+    }
+
+    return null;
 }
 
 // Math section
