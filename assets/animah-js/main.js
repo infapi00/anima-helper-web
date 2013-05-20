@@ -142,61 +142,69 @@ var AnimahRollType = {
     RESISTANCE:2
 };
 
-function AnimahMath() {
+function AnimahMath(params) {
+    this._init(params);
 }
 
-AnimahMath.prototype.getRandomInt = function(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+AnimahMath.prototype = {
 
-// return [total, num_opened]
-AnimahMath.prototype.getDiceRoll = function(rollType) {
-    var open = 0;
-    var diceRoll = 0;
-    var total = 0;
-    var threshold = CRITIC_THROW_THRESHOLD;
-    var throwAgain = false;
+    _init: function(params) {
+        //Initialization if needed
+    },
 
-    do {
-        diceRoll = this.getRandomInt(1,100);
+    getRandomInt: function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
 
-        switch (rollType) {
-        case AnimahRollType.NORMAL:
-        case AnimahRollType.INITIATIVE:
-            if (diceRoll >= threshold) {
-                open++;
-                throwAgain = true;
-                if (threshold < 100) threshold++;
-            } else {
-                throwAgain = false;
-            }
-            break;
-        case AnimahRollType.RESISTANCE:
-            throwAgain = false;
-            break;
-        }
+    // return [total, num_opened]
+    getDiceRoll: function(rollType) {
+        var open = 0;
+        var diceRoll = 0;
+        var total = 0;
+        var threshold = CRITIC_THROW_THRESHOLD;
+        var throwAgain = false;
 
-        // critical fail
+        do {
+            diceRoll = this.getRandomInt(1,100);
 
-        if ((diceRoll < 4) && (open == 0)) {
             switch (rollType) {
             case AnimahRollType.NORMAL:
-                var criticalConfirmation = this.getRandomInt(1,100);
-                diceRoll = diceRoll - criticalConfirmation;
-                break;
             case AnimahRollType.INITIATIVE:
-                diceRoll = INITIATIVE_CRITICAL_FAIL [diceRoll - 1];
+                if (diceRoll >= threshold) {
+                    open++;
+                    throwAgain = true;
+                    if (threshold < 100) threshold++;
+                } else {
+                    throwAgain = false;
+                }
                 break;
             case AnimahRollType.RESISTANCE:
+                throwAgain = false;
                 break;
             }
-        }
 
-        total += diceRoll;
-    } while (throwAgain);
+            // critical fail
 
-    return [total, open];
-}
+            if ((diceRoll < 4) && (open == 0)) {
+                switch (rollType) {
+                case AnimahRollType.NORMAL:
+                    var criticalConfirmation = this.getRandomInt(1,100);
+                    diceRoll = diceRoll - criticalConfirmation;
+                    break;
+                case AnimahRollType.INITIATIVE:
+                    diceRoll = INITIATIVE_CRITICAL_FAIL [diceRoll - 1];
+                    break;
+                case AnimahRollType.RESISTANCE:
+                    break;
+                }
+            }
+
+            total += diceRoll;
+        } while (throwAgain);
+
+        return [total, open];
+    }
+};
 
 //Aux methods
 function debugLog(message) {
