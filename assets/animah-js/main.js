@@ -18,22 +18,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Players array, Name, Base, Random, Open, Total
-var players = [ ["Lorenzo", 45, 0, 0, 0],
-                ["Atanasio", 85, 0, 0, 0],
-                ["Zenon", 115, 0, 0, 0],
-                ["Fatima", 75, 0, 0, 0],
-                ["Uriel", 70, 0, 0, 0]];
-
-var playerTable;
-var myMath = null;
-var DEBUG = true;
-
-//animah in-game constants
+//animah math in-game constants
 var SURPRISE_THRESHOLD = 150;
 var CRITIC_THROW_THRESHOLD = 90;
 var INITIATIVE_CRITICAL_FAIL = [-125, -100, -75];
 
+// Globals
+// Players array (contains instances of Player)
+var players = new Array();
+// Refence to the html table with the player information
+var playerTable;
+var myMath = null;
+var DEBUG = true;
+
+// global variables
 var editingMode = true;
 
 function onDocumentReady() {
@@ -53,6 +51,19 @@ function onDocumentReady() {
                                                } );
 
     myMath = new AnimahMath();
+
+    // FIXME: creating some players by hand
+    var atanasio = new Player({ name: "Atanasio",
+                                base: 85 });
+    var lorenzo = new Player({ name: "Lorenzo",
+                               base: 45 });
+    var fatima = new Player({ name: "Fatima",
+                              base: 75 });
+
+    players.push(atanasio);
+    players.push(lorenzo);
+    players.push(fatima);
+
     updateTable();
 }
 
@@ -65,8 +76,8 @@ function fnGetSelected(oTableLocal)
 function updateTable() {
     playerTable.fnClearTable();
     for (i = 0; i < players.length; i++) {
-        players[i][4] = players[i][1] + players[i][2];
-        playerTable.fnAddData(players[i]);
+        playerTable.fnAddData([players[i].name, players[i].base, players[i].diceRoll,
+                               players[i].open, players[i].getTotalRoll()]);
     }
 
     playerTable.$('tbody tr').click (function(e) {
@@ -81,8 +92,8 @@ function updateTable() {
 }
 
 // Callbacks to html elements
-function onNewRound () {
-    new_round ();
+function onNewRound() {
+    newRound();
 }
 
 function onNewHit () {
@@ -103,9 +114,14 @@ function onAcceptEditPlayer() {
     if (editingMode) {
         // FIXME: fill me!!
     } else { // So adding a player
+        var newPlayer = new Player ({ name: name,
+                                      base: base,
+                                      modifier: modifier,
+                                      damage: damage });
+
         debugLog("Adding player=("+name+","+base+","+modifier+","+damage+")");
         //FIXME: is adding base and others as a string
-        players.push([name, base, 0, 0, 0]);
+        players.push(newPlayer);
     }
 
     updateTable();
@@ -121,19 +137,13 @@ function cleanEditPlayerForm() {
 
 
 //FIXME: bad name and/or place
-function new_round () {
-    var diceRoll;
-
+function newRound () {
     for (i = 0; i < players.length; i++) {
-        diceRoll = myMath.getDiceRoll (AnimahRollType.INITIATIVE);
-        players[i][2] = diceRoll[0];
-        players[i][3] = diceRoll[1];
+        players[i].newRound();
     }
 
     updateTable();
 }
-
-// Player
 
 // Math section
 var AnimahRollType = {
@@ -149,7 +159,6 @@ function AnimahMath(params) {
 AnimahMath.prototype = {
 
     _init: function(params) {
-        //Initialization if needed
     },
 
     getRandomInt: function(min, max) {
