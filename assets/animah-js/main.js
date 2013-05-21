@@ -30,17 +30,30 @@ var players = new Array();
 var playerTable;
 var myMath = null;
 var DEBUG = true;
+var DEBUG_TABLE = false;
 
 // global variables
 var editingMode = true;
+
+// We don't set that on dataTable call, because we want to show all
+//    the table in some cases
+function updateTableVisibility() {
+    if (DEBUG_TABLE) return;
+
+    playerTable.fnSetColumnVis(0, false);
+    playerTable.fnSetColumnVis(2, false);
+    playerTable.fnSetColumnVis(3, false);
+    playerTable.fnSetColumnVis(4, false);
+}
 
 function onDocumentReady() {
 
     playerTable = $('#player_table').dataTable({ 'bFilter': false,
                                                  'bInfo': false,
                                                  'bPaginate': false,
+                                                 //Index, Name, Base, Random, Open, Total, Damage, Surprise
                                                  'aoColumns': [ null, null, {'sClass': 'center'}, {'sClass': 'center'},
-                                                                {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}]
+                                                                {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, null]
                                                } );
 
     myMath = new AnimahMath();
@@ -57,14 +70,9 @@ function onDocumentReady() {
     players.push(lorenzo);
     players.push(fatima);
 
+    updateTableVisibility();
     updateTable();
     updateElementsBasedOnSelectedPlayer();
-}
-
-/* Get the rows which are currently selected */
-function fnGetSelected(oTableLocal)
-{
-    return oTableLocal.$('tr.row_selected');
 }
 
 function updateElementsBasedOnSelectedPlayer() {
@@ -78,7 +86,8 @@ function updateTable() {
     playerTable.fnClearTable();
     for (i = 0; i < players.length; i++) {
         playerTable.fnAddData([i, players[i].name, players[i].base, players[i].diceRoll,
-                               players[i].open, players[i].getTotalRoll(), players[i].damage]);
+                               players[i].open, players[i].getTotalRoll(), players[i].damage,
+                               players[i].surprise]);
     }
 
     playerTable.$('tbody tr').click (function(e) {
@@ -158,11 +167,18 @@ function newRound () {
     updateTable();
 }
 
+/* Get the rows which are currently selected */
+function fnGetSelected(oTableLocal)
+{
+    return oTableLocal.$('tr.row_selected');
+}
+
 function getSelectedPlayer() {
     var anSelected = fnGetSelected(playerTable);
 
     if (anSelected.length != 0) {
-        var index = parseInt(anSelected[0].cells[0].innerHTML);
+        var data = playerTable.fnGetData(anSelected[0]);
+        var index = parseInt(data[0]);
 
         return players[index];
     }

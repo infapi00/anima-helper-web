@@ -20,6 +20,7 @@ Player.prototype = {
         this.damage = params.damage;
         this.diceRoll = params.diceRoll;
         this.open = params.open;
+        this.surprise = "";
     },
 
     newRound: function() {
