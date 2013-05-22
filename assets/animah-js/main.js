@@ -76,10 +76,15 @@ function onDocumentReady() {
 }
 
 function updateElementsBasedOnSelectedPlayer() {
-    if (getSelectedPlayer() != null)
+    if (getSelectedPlayer() != null) {
+        $('#remove_player').removeClass('ui-disabled');
+        $('#edit_player').removeClass('ui-disabled');
         $('#new_hit').removeClass('ui-disabled');
-    else
+    } else {
+        $('#remove_player').addClass('ui-disabled');
+        $('#edit_player').addClass('ui-disabled');
         $('#new_hit').addClass('ui-disabled');
+    }
 }
 
 function updateTable() {

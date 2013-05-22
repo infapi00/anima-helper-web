@@ -76,16 +76,15 @@
         <h1>Menu</h1>
       </div>
 
-      <!-- FIXME: should dim remove/edit current player if no one is selected -->
       <div data-role="content">
         <div>
           <a href="#player" data-role="button" data-theme="b" onClick="onNewPlayer()">New player</a>
         </div>
         <div>
-          <a href="#warning-remove" data-role="button" data-theme="b">Remove current player</a>
+          <a id="remove_player" href="#warning-remove" data-role="button" data-theme="b">Remove current player</a>
         </div>
         <div>
-          <a href="#player" data-role="button" data-theme="b">Edit current player</a>
+          <a id="edit_player" href="#player" data-role="button" data-theme="b">Edit current player</a>
         </div>
       </div> <!-- content -->
 
