@@ -44,6 +44,8 @@ function updateTableVisibility() {
     playerTable.fnSetColumnVis(2, false);
     playerTable.fnSetColumnVis(3, false);
     playerTable.fnSetColumnVis(4, false);
+    playerTable.fnSetColumnVis(5, false);
+
 }
 
 function onDocumentReady() {
@@ -98,13 +100,19 @@ function fillTable() {
 }
 
 function initTable() {
-    playerTable = $('#player_table').dataTable({ 'bFilter': false,
-                                                 'bInfo': false,
-                                                 'bPaginate': false,
-                                                 //Index, Name, Base, Random, Open, Total, Damage, Surprise
-                                                 'aoColumns': [ null, null, {'sClass': 'center'}, {'sClass': 'center'},
-                                                                {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, null]
-                                               } );
+    playerTable =
+        $('#player_table').dataTable({ 'bFilter': false,
+                                       'bInfo': false,
+                                       'bPaginate': false,
+                                       //Index, Name, Base, Modifier, Random, Open, Total, Damage, Surprise
+                                       'aoColumns': [ null, null,
+                                                      {'sClass': 'center'},
+                                                      {'sClass': 'center'},
+                                                      {'sClass': 'center'},
+                                                      {'sClass': 'center'},
+                                                      {'sClass': 'center'},
+                                                      {'sClass': 'center'}, null]
+                                     } );
     updateTableVisibility();
     fillTable();
     updateTable();
@@ -125,9 +133,9 @@ function updateElementsBasedOnSelectedPlayer() {
 function updateTable() {
     playerTable.fnClearTable();
     for (i = 0; i < players.length; i++) {
-        playerTable.fnAddData([i, players[i].name, players[i].base, players[i].diceRoll,
-                               players[i].open, players[i].getTotalRoll(), players[i].damage,
-                               players[i].surprise]);
+        playerTable.fnAddData([i, players[i].name, players[i].base, players[i].modifier,
+                               players[i].diceRoll, players[i].open, players[i].getTotalRoll(),
+                               players[i].damage, players[i].surprise]);
     }
 
     playerTable.$('tbody tr').click (function(e) {
