@@ -47,17 +47,43 @@ function updateTableVisibility() {
 }
 
 function onDocumentReady() {
-
-    playerTable = $('#player_table').dataTable({ 'bFilter': false,
-                                                 'bInfo': false,
-                                                 'bPaginate': false,
-                                                 //Index, Name, Base, Random, Open, Total, Damage, Surprise
-                                                 'aoColumns': [ null, null, {'sClass': 'center'}, {'sClass': 'center'},
-                                                                {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, null]
-                                               } );
-
     myMath = new AnimahMath();
 
+    initTable();
+    updateElementsBasedOnSelectedPlayer();
+
+    initEditPlayerForm();
+}
+
+function updateEditPlayerBasedOnFormValidity() {
+    if ($('#player_form')[0].checkValidity()) {
+        $('#invalid_data_warning').hide();
+        $('#accept_edit_player').removeClass('ui-disabled');
+    } else {
+        $('#invalid_data_warning').show();
+        $('#accept_edit_player').addClass('ui-disabled');
+    }
+}
+
+function initEditPlayerForm() {
+
+    $('#invalid_data_warning').hide();
+
+    $('#base').bind('change', function(e){
+        updateEditPlayerBasedOnFormValidity();
+    });
+
+    $('#modifier').bind('change', function(e){
+        updateEditPlayerBasedOnFormValidity();
+    });
+
+    $('#damage').bind('change', function(e){
+        updateEditPlayerBasedOnFormValidity();
+    });
+}
+
+
+function fillTable() {
     // FIXME: creating some players by hand
     var atanasio = new Player({ name: "Atanasio",
                                 base: 85 });
@@ -69,10 +95,19 @@ function onDocumentReady() {
     players.push(atanasio);
     players.push(lorenzo);
     players.push(fatima);
+}
 
+function initTable() {
+    playerTable = $('#player_table').dataTable({ 'bFilter': false,
+                                                 'bInfo': false,
+                                                 'bPaginate': false,
+                                                 //Index, Name, Base, Random, Open, Total, Damage, Surprise
+                                                 'aoColumns': [ null, null, {'sClass': 'center'}, {'sClass': 'center'},
+                                                                {'sClass': 'center'}, {'sClass': 'center'}, {'sClass': 'center'}, null]
+                                               } );
     updateTableVisibility();
+    fillTable();
     updateTable();
-    updateElementsBasedOnSelectedPlayer();
 }
 
 function updateElementsBasedOnSelectedPlayer() {

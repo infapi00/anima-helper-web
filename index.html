@@ -102,19 +102,19 @@
 
       <div data-role="content">
 
-        <!-- FIXME: change layout -->
-        <label for="name">Name</label><input id="name"/>
-        <!-- FIXME: how to force following ones to be "numbers only"? -->
-        <label for="base">Base</label><input id="base"/>
-        <label for="modifier">Modifier</label><input id="modifier"/>
-        <label for="damage">Damage</label><input id="damage"/>
+        <form id="player_form" onsubmit="return false">
+          <label for="name">Name</label><input id="name" type="text"/>
+          <label for="base">Base</label><input id="base" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="modifier">Modifier</label><input id="modifier" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="damage">Damage</label><input id="damage" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+        </form>
 
         <!-- FIXME: FILL ME with existing data if Im editing a existing player -->
 
         <div>
-          <!-- FIXME: these buttons should do something -->
-          <a href="#main" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptEditPlayer()">Accept</a>
+          <a href="#main" id="accept_edit_player" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptEditPlayer()">Accept</a>
           <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+          <label id="invalid_data_warning" style="color:red;">There are invalid data (base, modifier and damage must be numbers between -999 and 999)</label>
         </div>
       </div> <!-- content -->
 
