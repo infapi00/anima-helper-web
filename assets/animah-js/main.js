@@ -160,9 +160,9 @@ function onNewPlayer() {
 
 function onAcceptEditPlayer() {
     var name = $("#name").val();
-    var base = $("#base").val();
-    var modifier = $("#modifier").val();
-    var damage = $("#damage").val();
+    var base = parseInt($("#base").val());
+    var modifier = parseInt($("#modifier").val());
+    var damage = parseInt($("#damage").val());
 
     if (editingMode) {
         // FIXME: fill me!!
@@ -173,7 +173,6 @@ function onAcceptEditPlayer() {
                                       damage: damage });
 
         debugLog("Adding player=("+name+","+base+","+modifier+","+damage+")");
-        //FIXME: is adding base and others as a string
         players.push(newPlayer);
     }
 
