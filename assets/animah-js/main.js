@@ -149,6 +149,8 @@ function updateTable() {
 
         updateElementsBasedOnSelectedPlayer();
     });
+
+    updateElementsBasedOnSelectedPlayer();
 }
 
 // Callbacks to html elements
