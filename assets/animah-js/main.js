@@ -116,6 +116,10 @@ function fillTable() {
     players.push(atanasio);
     players.push(lorenzo);
     players.push(fatima);
+
+    for (i = 0; i < players.length; i++) {
+        players[i].updateSurprise(players);
+    }
 }
 
 function initTable() {
@@ -265,9 +269,13 @@ function cleanEditPlayerForm() {
 
 
 function newRound () {
-    for (i = 0; i < players.length; i++) {
+    var i = 0;
+
+    for (i = 0; i < players.length; i++)
         players[i].newRound();
-    }
+
+    for (i = 0; i < players.length; i++)
+        players[i].updateSurprise(players);
 
     updateTable();
 }

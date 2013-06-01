@@ -43,5 +43,19 @@ Player.prototype = {
         clone.damage = 0;
 
         return clone;
-    }
+    },
+
+    checkSurprise: function(defender) {
+        return (this.getTotalRoll() - defender.getTotalRoll()) >= SURPRISE_THRESHOLD;
+    },
+
+    updateSurprise: function(players) {
+        var i = 0;
+
+        this.surprise = "";
+        for (i = 0; i < players.length; i++) {
+            if (this.checkSurprise(players[i]))
+                this.surprise += players[i].name + " ";
+        }
+    },
 }
