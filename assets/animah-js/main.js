@@ -154,6 +154,11 @@ function updateTable() {
 }
 
 // Callbacks to html elements
+function onEditPlayer() {
+    editingMode = true;
+    fillEditPlayerForm();
+}
+
 function onNewRound() {
     newRound();
 }
@@ -169,22 +174,24 @@ function onNewPlayer() {
 }
 
 function onAcceptEditPlayer() {
+    var player;
     var name = $("#name").val();
     var base = parseInt($("#base").val());
     var modifier = parseInt($("#modifier").val());
     var damage = parseInt($("#damage").val());
 
     if (editingMode) {
-        // FIXME: fill me!!
+        player = getSelectedPlayer();
     } else { // So adding a player
-        var newPlayer = new Player ({ name: name,
-                                      base: base,
-                                      modifier: modifier,
-                                      damage: damage });
-
+        player = new Player();
         debugLog("Adding player=("+name+","+base+","+modifier+","+damage+")");
-        players.push(newPlayer);
+        players.push(player);
     }
+
+    player.name = name;
+    player.base = base;
+    player.modifier = modifier;
+    player.damage = damage;
 
     updateTable();
 }
@@ -198,7 +205,16 @@ function onHitPlayer() {
     updateTable();
 }
 
-// Edit player form methods
+
+function fillEditPlayerForm() {
+    player = getSelectedPlayer();
+
+    $("#name").val(player.name);
+    $("#base").val(player.base);
+    $("#modifier").val(player.modifier);
+    $("#damage").val(player.damage);
+}
+
 function cleanEditPlayerForm() {
     $("#name").val("");
     $("#base").val("");
