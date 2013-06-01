@@ -147,6 +147,12 @@ function updateElementsBasedOnSelectedPlayer() {
         $('#edit_player').addClass('ui-disabled');
         $('#new_hit').addClass('ui-disabled');
     }
+
+    if (players.length == 0) {
+        $('#new_round').addClass('ui-disabled');
+    } else {
+        $('#new_round').removeClass('ui-disabled');
+    }
 }
 
 function updateTable() {
@@ -185,6 +191,22 @@ function onNewRound() {
 function onNewHit() {
     debugLog ("Cleaning hit value");
     $("#hit_value").val("0");
+}
+
+function onRemovePlayer() {
+    var player = getSelectedPlayer();
+
+    debugLog("Removing player "+player.name);
+
+    $('#remove_label').text("Do you really want to remove player "+ player.name+"?");
+}
+
+function onAcceptRemovePlayer() {
+    var index = getIndexSelectedPlayer();
+
+    players.splice(index, 1);
+
+    updateTable();
 }
 
 function onNewPlayer() {
@@ -242,7 +264,6 @@ function cleanEditPlayerForm() {
 }
 
 
-//FIXME: bad name and/or place
 function newRound () {
     for (i = 0; i < players.length; i++) {
         players[i].newRound();
@@ -257,17 +278,26 @@ function fnGetSelected(oTableLocal)
     return oTableLocal.$('tr.row_selected');
 }
 
-function getSelectedPlayer() {
+function getIndexSelectedPlayer() {
     var anSelected = fnGetSelected(playerTable);
 
     if (anSelected.length != 0) {
         var data = playerTable.fnGetData(anSelected[0]);
         var index = parseInt(data[0]);
 
-        return players[index];
+        return index;
     }
 
-    return null;
+    return -1;
+}
+
+function getSelectedPlayer() {
+    var index = getIndexSelectedPlayer();
+
+    if (index == -1)
+        return null;
+    else
+        return players[index];
 }
 
 // Math section
