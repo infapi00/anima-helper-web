@@ -118,11 +118,12 @@
       </div>
 
       <div data-role="content">
-
-        <label for="hit_value">Hit value</label><input id="hit_value" autofocus/>
+        <form id="hit_form">
+          <label for="hit_value">Hit value</label><input id="hit_value" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999" autofocus />
+          <label id="invalid_hit_warning" style="color:red;">Hit needs to be a number between -999 and 999</label>
+        </form>
         <div>
-          <!-- FIXME: these buttons should do something -->
-          <a href="#main" data-role="button" data-theme="b" data-inline="true" onClick="onHitPlayer()">Accept</a>
+          <a href="#main" id="accept_hit_player" data-role="button" data-theme="b" data-inline="true" onClick="onHitPlayer()">Accept</a>
           <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
         </div>
       </div> <!-- content -->

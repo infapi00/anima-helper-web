@@ -55,6 +55,25 @@ function onDocumentReady() {
     updateElementsBasedOnSelectedPlayer();
 
     initEditPlayerForm();
+    initHitPage();
+}
+
+function updateHitPlayerBasedOnFormValidity() {
+    if ($('#hit_form')[0].checkValidity()) {
+        $('#invalid_hit_warning').hide();
+        $('#accept_hit_player').removeClass('ui-disabled');
+    } else {
+        $('#invalid_hit_warning').show();
+        $('#accept_hit_player').addClass('ui-disabled');
+    }
+}
+
+function initHitPage() {
+    $('#invalid_hit_warning').hide();
+
+    $('#hit_value').bind('keyup', function(e){
+        updateHitPlayerBasedOnFormValidity();
+    });
 }
 
 function updateEditPlayerBasedOnFormValidity() {
@@ -71,15 +90,15 @@ function initEditPlayerForm() {
 
     $('#invalid_data_warning').hide();
 
-    $('#base').bind('change', function(e){
+    $('#base').bind('keyup', function(e){
         updateEditPlayerBasedOnFormValidity();
     });
 
-    $('#modifier').bind('change', function(e){
+    $('#modifier').bind('keyup', function(e){
         updateEditPlayerBasedOnFormValidity();
     });
 
-    $('#damage').bind('change', function(e){
+    $('#damage').bind('keyup', function(e){
         updateEditPlayerBasedOnFormValidity();
     });
 }
@@ -165,7 +184,7 @@ function onNewRound() {
 
 function onNewHit() {
     debugLog ("Cleaning hit value");
-    $("#hit_value").val("");
+    $("#hit_value").val("0");
 }
 
 function onNewPlayer() {
