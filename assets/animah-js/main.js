@@ -195,9 +195,9 @@ function onNewPlayer() {
 function onAcceptEditPlayer() {
     var player;
     var name = $("#name").val();
-    var base = parseInt($("#base").val());
-    var modifier = parseInt($("#modifier").val());
-    var damage = parseInt($("#damage").val());
+    var base = parseInt($("#base").val()) || 0;
+    var modifier = parseInt($("#modifier").val()) || 0;
+    var damage = parseInt($("#damage").val()) || 0;
 
     if (editingMode) {
         player = getSelectedPlayer();
@@ -219,7 +219,7 @@ function onHitPlayer() {
     player = getSelectedPlayer();
 
     if (player) {
-        player.damage += parseInt($("#hit_value").val());
+        player.damage += parseInt($("#hit_value").val()) || 0;
     }
     updateTable();
 }
