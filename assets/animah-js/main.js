@@ -146,10 +146,12 @@ function updateElementsBasedOnSelectedPlayer() {
         $('#remove_player').removeClass('ui-disabled');
         $('#edit_player').removeClass('ui-disabled');
         $('#new_hit').removeClass('ui-disabled');
+        $('#clone_player').removeClass('ui-disabled');
     } else {
         $('#remove_player').addClass('ui-disabled');
         $('#edit_player').addClass('ui-disabled');
         $('#new_hit').addClass('ui-disabled');
+        $('#clone_player').addClass('ui-disabled');
     }
 
     if (players.length == 0) {
@@ -190,6 +192,14 @@ function onEditPlayer() {
 
 function onNewRound() {
     newRound();
+}
+
+function onClonePlayer() {
+    var original = getSelectedPlayer();
+    debugLog("Cloning player " + original.name);
+
+    players.push(original.clone());
+    updateTable();
 }
 
 function onNewHit() {

@@ -1,5 +1,8 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
+//global hashtable
+var namesUsed = {};
+
 function Player(params) {
     this._init(params);
 }
@@ -34,11 +37,24 @@ Player.prototype = {
         return this.base + this.modifier + this.diceRoll;
     },
 
-    clone: function(original) {
+    _cloneName: function(name) {
+        var value = 0;
+
+        if (namesUsed[name])
+            value = namesUsed[name];
+        else
+            value = 1;
+
+        value++;
+        namesUsed[name] = value;
+        return name+value;
+    },
+
+    clone: function() {
         clone = new Player;
 
-        clone.name = name;//FIXME: should add a counter per name
-        clone.base = clone.base;
+        clone.name = this._cloneName(this.name);
+        clone.base = this.base;
         clone.modifier = 0;
         clone.damage = 0;
 
