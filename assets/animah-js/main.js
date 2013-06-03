@@ -29,7 +29,7 @@ var players = new Array();
 // Refence to the html table with the player information
 var playerTable;
 var myMath = null;
-var DEBUG = true;
+var DEBUG = false;
 var DEBUG_TABLE = false;
 
 // global variables
