@@ -174,6 +174,23 @@ function updateTable() {
         updateElementsBasedOnSelectedPlayer();
     });
 
+    playerTable.$('tbody tr').dblclick (function(e) {
+        if ($(this).hasClass('row_selected')) {
+	    $(this).removeClass('row_selected');
+        }
+        else {
+	    playerTable.$('tr.row_selected').removeClass('row_selected');
+	    $(this).addClass('row_selected');
+        }
+
+        var player = getSelectedPlayer();
+
+        debugLog("Double clicked player "+player.name);
+
+        onEditPlayer();
+        $.mobile.changePage('#player')
+    });
+
     updateElementsBasedOnSelectedPlayer();
 }
 
