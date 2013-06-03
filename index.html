@@ -35,12 +35,9 @@
 
       <div data-role="content">
         <div>
-          <a id="new_round" onClick="onNewRound();" data-role="button" data-icon="refresh" data-theme="b" data-inline="true">Round</a>
-          <a id="new_hit" href="#hit_page" data-role="button" data-icon="star" data-theme="a" data-inline="true" onClick="onNewHit();" data-rel="dialog">New Hit</a>
-          <a href="#player" data-role="button" data-theme="b" data-icon="plus" onClick="onNewPlayer()" data-inline="true">New player</a>
-          <a id="remove_player" href="#warning-remove" data-role="button" data-icon="minus" data-theme="b" data-inline="true" onClick="onRemovePlayer();"data-rel="dialog">Remove</a>
-          <a id="edit_player" href="#player" data-role="button" data-icon="grid" data-theme="b" data-inline="true" onClick="onEditPlayer();">Edit</a>
-          <a id="clone_player" href="#main" data-role="button" data-theme="b" data-icon="home" onClick="onClonePlayer()" data-inline="true">Clone Player</a>
+          <a href="#menu" data-role="button" data-icon="gear" data-iconpos="bottom" data-inline="true" data-mini="true">Menu</a>
+          <a id="new_round" onClick="onNewRound();" data-role="button" data-icon="refresh" data-theme="b" data-inline="true" data-iconpos="bottom" data-mini="false">New Round</a>
+          <a id="new_hit" href="#hit_page" data-role="button" data-icon="star" data-theme="a" data-inline="true" onClick="onNewHit();" data-rel="dialog" data-iconpos="bottom" data-mini="true">New Hit</a>
         </div>
 
         <div class="spacer"></div>
@@ -133,6 +130,34 @@
 
     </div> <!-- /page player -->
 
+     <!-- ###################################################################### -->
+
+    <div data-role="page" id="menu">
+      <div data-role="header">
+        <h1>Menu</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <a href="#player" data-role="button" data-theme="b" data-icon="plus" onClick="onNewPlayer()" >New player</a>
+        </div>
+        <div>
+          <a id="remove_player" href="#warning-remove" data-role="button" data-icon="minus" data-theme="b" onClick="onRemovePlayer();"data-rel="dialog">Remove Player</a>
+        </div>
+        <div>
+          <a id="edit_player" href="#player" data-role="button" data-icon="grid" data-theme="b" onClick="onEditPlayer();">Edit Player</a>
+        </div>
+        <div>
+          <a id="clone_player" href="#main" data-role="button" data-theme="b" data-icon="home" onClick="onClonePlayer()">Clone Player</a>
+        </div>
+      </div> <!-- content -->
+
+      <div data-role="footer">
+        <a href="#main" data-role="button" data-icon="back" data-theme="b">Back</a>
+      </div>
+    </div> <!-- /page menu -->
+
+    <!-- ###################################################################### -->
 
   </body>
 </html>

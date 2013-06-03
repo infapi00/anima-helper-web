@@ -45,7 +45,7 @@ function updateTableVisibility() {
     playerTable.fnSetColumnVis(3, false);
     playerTable.fnSetColumnVis(4, false);
     playerTable.fnSetColumnVis(5, false);
-
+    playerTable.fnSetColumnVis(7, false);
 }
 
 function onDocumentReady() {
