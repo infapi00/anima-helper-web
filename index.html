@@ -150,6 +150,9 @@
         <div>
           <a id="clone_player" href="#main" data-role="button" data-theme="b" data-icon="home" onClick="onClonePlayer()">Clone Player</a>
         </div>
+        <div>
+          <a id="change_tabler" href="#table_page" data-role="button" data-theme="b" data-icon="search" onClick="onChangeTable()">Change Table</a>
+        </div>
       </div> <!-- content -->
 
       <div data-role="footer">
@@ -158,6 +161,36 @@
     </div> <!-- /page menu -->
 
     <!-- ###################################################################### -->
+
+    <div data-role="page" id="table_page">
+      <div data-role="header">
+        <h1>Menu</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <label><input type="checkbox" name="checkbox-name" id="checkbox-name"/>Name</label>
+          <label><input type="checkbox" name="checkbox-base" id="checkbox-base"/>Base</label>
+          <label><input type="checkbox" name="checkbox-modifier" id="checkbox-modifier"/>Modifier</label>
+          <label><input type="checkbox" name="checkbox-diceRoll" id="checkbox-diceRoll"/>Dice Roll</label>
+          <label><input type="checkbox" name="checkbox-open" id="checkbox-open"/>Open</label>
+          <label><input type="checkbox" name="checkbox-total" id="checkbox-total"/>Total</label>
+          <label><input type="checkbox" name="checkbox-damage" id="checkbox-damage"/>Damage</label>
+          <label><input type="checkbox" name="checkbox-surprise" id="checkbox-surprise"/>Surprise</label>
+        </div>
+
+        <div>
+          <a href="#main" id="accept_change_table" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptChangeTable()">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+        </div>
+
+      </div> <!-- content -->
+
+      <div data-role="footer">
+        <a href="#main" data-role="button" data-icon="back" data-theme="b">Back</a>
+      </div>
+    </div> <!-- /page menu -->
+
 
   </body>
 </html>

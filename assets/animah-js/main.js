@@ -35,17 +35,30 @@ var DEBUG_TABLE = false;
 // global variables
 var editingMode = true;
 
-// We don't set that on dataTable call, because we want to show all
-//    the table in some cases
+var AnimahTableData = {
+    INDEX:0,
+    NAME:1,
+    BASE:2,
+    MODIFIER:3,
+    RANDOM:4,
+    OPEN:5,
+    TOTAL:6,
+    DAMAGE:7,
+    SURPRISE:8,
+};
+
+var tableVisibility = [false, true, false, false,
+                       false, false, true, false,
+                       true];
+
 function updateTableVisibility() {
+    var i = 0;
+
+    //if we are debugging we want to see all the info
     if (DEBUG_TABLE) return;
 
-    playerTable.fnSetColumnVis(0, false);
-    playerTable.fnSetColumnVis(2, false);
-    playerTable.fnSetColumnVis(3, false);
-    playerTable.fnSetColumnVis(4, false);
-    playerTable.fnSetColumnVis(5, false);
-    playerTable.fnSetColumnVis(7, false);
+    for (i = 0; i < tableVisibility.length; i++)
+        playerTable.fnSetColumnVis(i, tableVisibility[i]);
 }
 
 function onDocumentReady() {
@@ -192,6 +205,32 @@ function onEditPlayer() {
 
 function onNewRound() {
     newRound();
+}
+
+function onChangeTable() {
+    $('#checkbox-name').attr('checked', tableVisibility[AnimahTableData.NAME]);
+    $('#checkbox-base').attr('checked', tableVisibility[AnimahTableData.BASE]);
+    $('#checkbox-modifier').attr('checked', tableVisibility[AnimahTableData.MODIFIER]);
+    $('#checkbox-diceRoll').attr('checked', tableVisibility[AnimahTableData.RANDOM]);
+    $('#checkbox-open').attr('checked', tableVisibility[AnimahTableData.OPEN]);
+    $('#checkbox-total').attr('checked', tableVisibility[AnimahTableData.TOTAL]);
+    $('#checkbox-damage').attr('checked', tableVisibility[AnimahTableData.DAMAGE]);
+    $('#checkbox-surprise').attr('checked', tableVisibility[AnimahTableData.SURPRISE]);
+
+}
+
+function onAcceptChangeTable() {
+
+    tableVisibility[AnimahTableData.NAME] = $('#checkbox-name').is(':checked');
+    tableVisibility[AnimahTableData.BASE] = $('#checkbox-base').is(':checked');
+    tableVisibility[AnimahTableData.MODIFIER] = $('#checkbox-modifier').is(':checked');
+    tableVisibility[AnimahTableData.RANDOM] = $('#checkbox-diceRoll').is(':checked');
+    tableVisibility[AnimahTableData.OPEN] = $('#checkbox-open').is(':checked');
+    tableVisibility[AnimahTableData.TOTAL] = $('#checkbox-total').is(':checked');
+    tableVisibility[AnimahTableData.DAMAGE] = $('#checkbox-damage').is(':checked');
+    tableVisibility[AnimahTableData.SURPRISE] = $('#checkbox-surprise').is(':checked');
+
+    updateTableVisibility();
 }
 
 function onClonePlayer() {
