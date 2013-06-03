@@ -116,25 +116,6 @@ function initEditPlayerForm() {
     });
 }
 
-
-function fillTable() {
-    // FIXME: creating some players by hand
-    var atanasio = new Player({ name: "Atanasio",
-                                base: 85 });
-    var lorenzo = new Player({ name: "Lorenzo",
-                               base: 45 });
-    var fatima = new Player({ name: "Fatima",
-                              base: 75 });
-
-    players.push(atanasio);
-    players.push(lorenzo);
-    players.push(fatima);
-
-    for (i = 0; i < players.length; i++) {
-        players[i].updateSurprise(players);
-    }
-}
-
 function initTable() {
     playerTable =
         $('#player_table').dataTable({ 'bFilter': false,
@@ -150,7 +131,6 @@ function initTable() {
                                                       {'sClass': 'center'}, null]
                                      } );
     updateTableVisibility();
-    fillTable();
     updateTable();
 }
 
