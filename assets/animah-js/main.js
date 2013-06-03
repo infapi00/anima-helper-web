@@ -196,7 +196,10 @@ function updateTable() {
 
 // Callbacks to html elements
 function onEditPlayer() {
+    var player = getSelectedPlayer();
+
     editingMode = true;
+    $('#player_header').text("Editing "+player.name);
     fillEditPlayerForm();
 }
 
@@ -262,6 +265,7 @@ function onAcceptRemovePlayer() {
 function onNewPlayer() {
     editingMode = false;
     cleanEditPlayerForm();
+    $('#player_header').text("New player");
 }
 
 function onAcceptEditPlayer() {
