@@ -160,3 +160,136 @@ function onTest2() {
 
     $('#test-output').text(getLog());
 }
+
+//********************************************************************************
+// Test3: compute the average on the sum of the stats going through the traditional
+//    stats-by-dice getter
+
+function cleanPlayer(player) {
+    for (i = 0; i < 8; i++)
+        player[i] = 1;
+}
+
+function printPlayer(player) {
+    line = "Player stats=("
+    for (i = 0; i < 7; i++)
+        line += player[i]+",";
+    line += player[i] + ")";
+
+    return line;
+}
+
+function sumPlayer(player) {
+    var sum = 0;
+
+    for (i = 0; i < 8; i++)
+        sum += player[i];
+
+    return sum;
+}
+
+//Extended in sense that counts each 10 as a special value, summit 1
+//extra
+
+function sumPlayerExtended(player) {
+    var sum = 0;
+
+    for (i = 0; i < 8; i++) {
+        sum += player[i];
+        if (player[i] == 10)
+            sum++;
+    }
+
+    return sum;
+}
+
+function test3(numSamples) {
+    var currentPlayer = [1,1,1,1,1,1,1,1];
+    var worsePlayer = [10, 10, 10, 10, 10, 10, 10, 10, 10];
+    var worsePlayerSum = 100;
+    var bestPlayer = [1,1,1,1,1,1,1,1];;
+    var bestPlayerSum = 0;
+    var currentSum = 0;
+    var currentExtendedSum = 0;
+    var diceRoll = 1;
+    var worseStat = 10;
+    var worseIndex = -1;
+    var worseStatReplacementNotNeeded = 0;
+    var totalSum = 0;
+    var totalSumExtended = 0;
+    var samples = new Array();
+    var samplesExtended = new Array();
+
+    myMath = new AnimahMath();
+
+    for(sample = 0; sample < numSamples; sample++) {
+        worseStat=10;
+        cleanPlayer(currentPlayer);
+        for (c = 0; c < 8; c++) {
+            do
+                diceRoll = myMath.getRandomInt(1,10);
+            while (diceRoll < 4);
+            currentPlayer[c] = diceRoll;
+            if (diceRoll < worseStat) {
+                worseStat = diceRoll;
+                worseIndex = c;
+            }
+        }
+        if (worseStat < 9)
+            currentPlayer[worseIndex] = 9;
+        else
+            worseStatReplacementNotNeeded += 1;
+
+        currentSum = sumPlayer(currentPlayer);
+        currentExtendedSum = sumPlayerExtended(currentPlayer);
+
+        if (worsePlayerSum > currentSum) {
+            worsePlayer = currentPlayer.slice(0);
+            worsePlayerSum = currentSum;
+        }
+
+        if (bestPlayerSum < currentSum) {
+            bestPlayer = currentPlayer.slice(0);
+            bestPlayerSum = currentSum;
+        }
+
+        samples[sample] = currentSum;
+        samplesExtended[sample] = currentExtendedSum;
+        totalSum += currentSum;
+        totalSumExtended += currentExtendedSum;
+    }
+
+    average = totalSum/numSamples;
+    averageExtended = totalSumExtended/numSamples;
+
+    totalSum = 0;
+    totalSumExtended = 0;
+    for (sample = 0; sample < numSamples; sample++) {
+        totalSum += (samples[sample] - average) * (samples[sample] - average);
+        totalSumExtended += (samplesExtended[sample] - averageExtended) * (samplesExtended[sample] - averageExtended);
+    }
+    variance = totalSum/numSamples;
+    varianceExtended = totalSumExtended/numSamples;
+
+    log("NUM SAMPLES = " + numSamples);
+    log("Average sum: " + average + "  Average sum (10 extra cost): " + averageExtended);
+    log("Worse player: " + printPlayer(worsePlayer));
+    log("\tsumPlayer=" + sumPlayer(worsePlayer) + "  sumPlayer 10 extra cost=" + sumPlayerExtended(worsePlayer));
+    log("Best player: " + printPlayer(bestPlayer));
+    log("\tsumPlayer=" + sumPlayer(bestPlayer) + "  sumPlayer 10 extra cost=" + sumPlayerExtended(bestPlayer));
+    log("Times was not needed to replace worse stat with a 9: " + worseStatReplacementNotNeeded);
+    log("Variance: " + variance + " Variance (10 extra cost): " + varianceExtended);
+    log("Std Variance: " + Math.sqrt(variance) + " Std Variance (10 extra cost): " + Math.sqrt(varianceExtended));
+}
+
+
+function onTest3() {
+    clearLog();
+
+    test3(10000);
+
+    $('#test-output').text(getLog());
+}
+
+
+
