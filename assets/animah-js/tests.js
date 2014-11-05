@@ -88,7 +88,7 @@ function testGetDiceRoll(type, numSamples) {
     var averageOpened = new Array();
     var average = 0;
     var moreThanAverage = 0;
-    var maxValeOpened = 0;
+    var maxValueOpened = 0;
     var variance = 0;
     var diceRoll = 0;
 
@@ -99,7 +99,7 @@ function testGetDiceRoll(type, numSamples) {
 
         if (diceRoll[0] > maxValue) {
             maxValue = diceRoll[0];
-            maxValeOpened = diceRoll[1];
+            maxValueOpened = diceRoll[1];
         }
         if (diceRoll[0] < minValue)
             minValue = diceRoll[0];
@@ -130,7 +130,7 @@ function testGetDiceRoll(type, numSamples) {
     log("VARIANCE: " + variance);
     log("STD VARIANCE: " + Math.sqrt(variance));
     log("MINIMUM VALUE: " +  minValue);
-    log("MAXIMUM VALUE: " + maxValue + "(" + maxValeOpened + ")");
+    log("MAXIMUM VALUE: " + maxValue + "(" + maxValueOpened + ")");
     c = 0;
     while (numOpened[c] > 0) {
         log (" %% OPENED MORE THAT "+c+": "+averageOpened[c]);
@@ -188,9 +188,7 @@ function sumPlayer(player) {
     return sum;
 }
 
-//Extended in sense that counts each 10 as a special value, summit 1
-//extra
-
+//Extended in sense that counts each 10 as special, adding 11 instead of 10
 function sumPlayerExtended(player) {
     var sum = 0;
 
@@ -203,6 +201,10 @@ function sumPlayerExtended(player) {
     return sum;
 }
 
+function compareNumbers (a, b) {
+    return a - b;
+}
+
 function test3(numSamples) {
     var currentPlayer = [1,1,1,1,1,1,1,1];
     var worsePlayer = [10, 10, 10, 10, 10, 10, 10, 10, 10];
@@ -211,9 +213,7 @@ function test3(numSamples) {
     var bestPlayerSum = 0;
     var currentSum = 0;
     var currentExtendedSum = 0;
-    var diceRoll = 1;
     var worseStat = 10;
-    var worseIndex = -1;
     var worseStatReplacementNotNeeded = 0;
     var totalSum = 0;
     var totalSumExtended = 0;
@@ -223,20 +223,17 @@ function test3(numSamples) {
     myMath = new AnimahMath();
 
     for(sample = 0; sample < numSamples; sample++) {
-        worseStat=10;
         cleanPlayer(currentPlayer);
         for (c = 0; c < 8; c++) {
             do
-                diceRoll = myMath.getRandomInt(1,10);
-            while (diceRoll < 4);
-            currentPlayer[c] = diceRoll;
-            if (diceRoll < worseStat) {
-                worseStat = diceRoll;
-                worseIndex = c;
-            }
+                currentPlayer[c] = myMath.getRandomInt(1,10);
+            while (currentPlayer[c] < 4);
         }
-        if (worseStat < 9)
-            currentPlayer[worseIndex] = 9;
+
+        //replace worse stat with a 9
+        currentPlayer.sort(compareNumbers);
+        if (currentPlayer[0] < 9)
+            currentPlayer[0] = 9;
         else
             worseStatReplacementNotNeeded += 1;
 
@@ -271,6 +268,8 @@ function test3(numSamples) {
     variance = totalSum/numSamples;
     varianceExtended = totalSumExtended/numSamples;
 
+    worsePlayer.sort(compareNumbers);
+    bestPlayer.sort(compareNumbers);
     log("NUM SAMPLES = " + numSamples);
     log("Average sum: " + average + "  Average sum (10 extra cost): " + averageExtended);
     log("Worse player: " + printPlayer(worsePlayer));
