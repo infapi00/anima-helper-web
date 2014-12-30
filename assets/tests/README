@@ -1,0 +1,24 @@
+This is a directory to dump some custom, mostly functional tests. The
+directory contains:
+
+  * tests.js: all the available tests in a monolithic source code
+    file. We don't have too many tests right now in any case. If the
+    number of tests starts to increase, we could change that.
+
+  * testSpidermonkey.js: command line front-end to run the tests. It
+    uses spidermonkey built-in functions for stuff like printing to
+    the terminal, loading scripts etc. This should be the only
+    javascript file with custom javascript-engine methods. Reference
+    here [1][2]
+
+In order to run the tests:
+$ js24 testSpidermonkey numTest numSamples
+
+This also prints some info with the available tests.
+
+Disclaimer: all those tests are not really serious. Mostly of them are
+custom tests, experiments or just curiosity. Those are not unit tests,
+or any other kind of real tests.
+
+[1] https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Introduction_to_the_JavaScript_shell
+[2] https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Shell_global_objects

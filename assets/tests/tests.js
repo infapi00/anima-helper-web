@@ -6,13 +6,15 @@
  * consuming, so I want to run each one individually. After all a lot
  * of the stuff to test is using random values. In some sense, the
  * problem is that current tests are not unit-tests, but functional
- * ones. In the future I can add unit tests with qunit.
+ * ones. In the future I could add unit tests with qunit or similar.
  *
- * I'm also using mobile-ui to maintain a visual coherence, as after
- * all it is eye-candy ;)
-*/
+ */
 
-//Aux log methods
+/*
+ * Methods to log the outcome of the tests to a string. This is
+ * convenient to be able to put the string whatever I want (on an
+ * html, using "print" on a JavaScrip Shell like spidermonkey, etc)
+ */
 var textLog = "";
 
 function clearLog() {
@@ -27,17 +29,19 @@ function getLog() {
     return textLog;
 }
 
-//Tests
-
 //********************************************************************************
 /**
- * test1: Checks the distribution of AnimahMath.getRandomInt (1,100)
+ * Test1: Checks the distribution of AnimahMath.getRandomInt (1,100)
+ *
+ * Returns the outcome of the test on a string
  */
 function test1(numSamples) {
     var finalValue;
     var i = 0;
     var error = 0;
     var finalTable = [];
+
+    clearLog();
 
     myMath = new AnimahMath();
 
@@ -55,9 +59,9 @@ function test1(numSamples) {
       }
     }
 
-    log ("NUMBER OF SAMPLES: " + numSamples);
-    log ("NUMBER OF ERRORS " + error + ", " + 100*error / numSamples);
-    log ("FINAL TABLE");
+    log("NUMBER OF SAMPLES: " + numSamples);
+    log("NUMBER OF ERRORS " + error + ", " + 100*error / numSamples);
+    log("FINAL TABLE");
     for (i = 0; i < 25; i ++ ) {
         var line = "";
         for (c = 0; c < 4; c++)
@@ -66,16 +70,7 @@ function test1(numSamples) {
         log(line);
     }
 
-  return true;
-}
-
-// mimic test1 on old anima helper
-function onTest1() {
-    clearLog();
-
-    test1(100000);
-
-    $('#test-output').text(getLog());
+  return getLog();
 }
 
 //********************************************************************************
@@ -133,13 +128,23 @@ function testGetDiceRoll(type, numSamples) {
     log("MAXIMUM VALUE: " + maxValue + "(" + maxValueOpened + ")");
     c = 0;
     while (numOpened[c] > 0) {
-        log (" %% OPENED MORE THAT "+c+": "+averageOpened[c]);
+        log(" %% OPENED MORE THAT "+c+": "+averageOpened[c]);
         c++;
     }
     log("%% GREATER THAN AVERAGE: "+moreThanAverage);
+
+    return getLog();
 }
 
+/**
+ * Test2: compute stats (average, std deviation, etc) for the three
+ *        different dice rolls on anima
+ *
+ * Returns the outcome of the test on a string
+ */
 function test2(numSamples) {
+    clearLog();
+
     log("NUM SAMPLES = " + numSamples);
     log("****************************************");
     log("ANIMA DATA FOR NORMAL");
@@ -150,20 +155,18 @@ function test2(numSamples) {
     log("****************************************");
     log("ANIMA DATA FOR RESISTANCE");
     testGetDiceRoll (AnimahRollType.RESISTANCE, numSamples);
-}
 
-// mimic test2 on old anima helper
-function onTest2() {
-    clearLog();
-
-    test2(100000);
-
-    $('#test-output').text(getLog());
+    return getLog();
 }
 
 //********************************************************************************
-// Test3: compute the average on the sum of the stats going through the traditional
-//    stats-by-dice getter
+/**
+ * Test3: compute the average on the sum of the stats going through the traditional
+ *        stats-by-dice getter
+ *
+ *
+ * Returns the outcome of the test on a string
+ */
 
 function cleanPlayer(player) {
     for (i = 0; i < 8; i++)
@@ -219,6 +222,8 @@ function test3(numSamples) {
     var totalSumExtended = 0;
     var samples = new Array();
     var samplesExtended = new Array();
+
+    clearLog();
 
     myMath = new AnimahMath();
 
@@ -279,16 +284,8 @@ function test3(numSamples) {
     log("Times was not needed to replace worse stat with a 9: " + worseStatReplacementNotNeeded);
     log("Variance: " + variance + " Variance (10 extra cost): " + varianceExtended);
     log("Std Variance: " + Math.sqrt(variance) + " Std Variance (10 extra cost): " + Math.sqrt(varianceExtended));
+
+    return getLog();
 }
-
-
-function onTest3() {
-    clearLog();
-
-    test3(10000);
-
-    $('#test-output').text(getLog());
-}
-
 
 
