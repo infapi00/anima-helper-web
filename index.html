@@ -1,8 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, charset=utf-8">
-    <link rel="shortcut icon" type="image/ico" href="assets/images/anima.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <link rel="shortcut icon" type="image/ico" href="assets/images/anima.ico">
 
     <title>AnimaHelperWeb</title>
     <style type="text/css" title="currentStyle">
@@ -13,14 +15,14 @@
     </style>
 
     <!-- Javascript loading: FIXME, investigate if there is a cleaner way to do this -->
-    <script type="text/javascript" language="javascript" src="assets/jquery/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/jquery/jquery.mobile-1.3.1.min.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/dataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/animah-js/main.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/animah-js/math.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/animah-js/player.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/animah-js/misc.js"></script>
-    <script type="text/javascript" charset="utf-8">
+    <script type="text/javascript" src="assets/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="assets/jquery/jquery.mobile-1.3.1.min.js"></script>
+    <script type="text/javascript" src="assets/dataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="assets/animah-js/main.js"></script>
+    <script type="text/javascript" src="assets/animah-js/math.js"></script>
+    <script type="text/javascript" src="assets/animah-js/player.js"></script>
+    <script type="text/javascript" src="assets/animah-js/misc.js"></script>
+    <script type="text/javascript">
       $(document).ready(function() {
           onDocumentReady();
       } );
@@ -77,9 +79,9 @@
 
         <form id="player_form" onsubmit="return false">
           <label for="name">Name</label><input id="name" type="text" autofocus/>
-          <label for="base">Base</label><input id="base" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
-          <label for="modifier">Modifier</label><input id="modifier" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
-          <label for="damage">Damage</label><input id="damage" type="number" step="1" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="base">Base</label><input id="base" type="text" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="modifier">Modifier</label><input id="modifier" type="text" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="damage">Damage</label><input id="damage" type="text" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
         </form>
 
         <div>
@@ -120,7 +122,7 @@
 
       <div data-role="content">
         <form id="hit_form">
-          <label for="hit_value">Hit value</label><input id="hit_value" type="number" step="1" pattern="[0-9]{1,3}" title="Only numbers between 0 and 999" autofocus />
+          <label for="hit_value">Hit value</label><input id="hit_value" type="text" pattern="[0-9]{1,3}" title="Only numbers between 0 and 999" autofocus />
           <label id="invalid_hit_warning" style="color:red;">Hit needs to be a number between -999 and 999</label>
         </form>
         <div>
@@ -143,7 +145,7 @@
           <a href="#player" data-role="button" data-theme="b" data-icon="plus" onClick="onNewPlayer()" >New player</a>
         </div>
         <div>
-          <a id="remove_player" href="#warning-remove" data-role="button" data-icon="minus" data-theme="b" onClick="onRemovePlayer();"data-rel="dialog">Remove Player</a>
+          <a id="remove_player" href="#warning-remove" data-role="button" data-icon="minus" data-theme="b" onClick="onRemovePlayer();" data-rel="dialog">Remove Player</a>
         </div>
         <div>
           <a id="edit_player" href="#player" data-role="button" data-icon="grid" data-theme="b" onClick="onEditPlayer();">Edit Player</a>
