@@ -359,3 +359,10 @@ function debugLog(message) {
         console.log(message);
     }
 }
+
+function supressEnter(event) {
+    if (event.keyCode == 13)
+        return false;
+
+    return true;
+}
