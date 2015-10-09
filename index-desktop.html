@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <link rel="shortcut icon" type="image/ico" href="assets/images/anima.ico">
+
+    <title>AnimaHelperWeb</title>
+    <style type="text/css" title="currentStyle">
+      @import "assets/dataTables/css/demo_page.css";
+      @import "assets/dataTables/css/demo_table.css";
+      @import "assets/dataTables/css/jquery.dataTables.css";
+      @import "assets/jquery/css/jquery.mobile-1.3.1.min.css";
+    </style>
+
+    <!-- Javascript loading: FIXME, investigate if there is a cleaner way to do this -->
+    <script type="text/javascript" src="assets/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="assets/jquery/jquery.mobile-1.3.1.min.js"></script>
+    <script type="text/javascript" src="assets/dataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="assets/animah-js/main.js"></script>
+    <script type="text/javascript" src="assets/animah-js/math.js"></script>
+    <script type="text/javascript" src="assets/animah-js/player.js"></script>
+    <script type="text/javascript" src="assets/animah-js/misc.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          onDocumentReady();
+      } );
+    </script>
+
+  </head>
+
+  <body>
+    <div data-role="page" id="main">
+      <div data-role="header">
+	<h1>AnimaHelperWeb</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <a id="new_round" data-role="button" onClick="onNewRound();"
+             data-icon="refresh" data-theme="b" data-inline="true" data-iconpos="bottom" data-mini="true">New Round</a>
+          <a id="new_hit"   href="#hit_page" data-role="button" onClick="onNewHit();" data-rel="dialog"
+             data-icon="star" data-theme="a" data-inline="true" data-iconpos="bottom" data-mini="true">New Hit</a>
+          &nbsp &nbsp &nbsp &nbsp &nbsp
+          <a href="#player" data-role="button" onClick="onNewPlayer()"
+             data-icon="plus" data-theme="b" data-inline="true" data-mini="true" data-iconpos="bottom">New player</a>
+          <a id="remove_player" href="#warning-remove" data-role="button" onClick="onRemovePlayer();" data-rel="dialog"
+             data-icon="minus" data-theme="b" data-inline="true" data-iconpos="bottom" data-mini="true">Remove Player</a>
+          <a id="edit_player" href="#player" data-role="button" onClick="onEditPlayer();"
+             data-icon="grid" data-theme="b" data-inline="true" data-iconpos="bottom" data-mini="true">Edit Player</a>
+          <a id="clone_player" href="#main" data-role="button" onClick="onClonePlayer()"
+             data-icon="home" data-theme="b" data-inline="true" data-iconpos="bottom" data-mini="true">Clone Player</a>
+          &nbsp &nbsp &nbsp &nbsp &nbsp
+          <a id="change_tabler" href="#table_page" data-role="button" onClick="onChangeTable()"
+             data-icon="search" data-theme="b" data-inline="true" data-iconpos="bottom" data-mini="true">Change Table</a>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
+        <!-- FIXME: all that stuff is deprecated, should use css -->
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="player_table" width="100%">
+	  <thead>
+	    <tr>
+              <th>Index</th>
+	      <th>Name</th>
+	      <th>Base</th>
+	      <th>Modifier</th>
+	      <th>Random</th>
+              <th>Open</th>
+	      <th>Total</th>
+              <th>Damage</th>
+              <th>Surprise</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+            <!-- Javascript code will fill this -->
+          </tbody>
+        </table>
+      </div> <!-- /content -->
+
+    </div><!-- /page main -->
+
+    <!-- ###################################################################### -->
+
+    <div data-role="page" id="player">
+      <div data-role="header">
+        <h1 id="player_header">Edit player</h1>
+      </div>
+
+      <div data-role="content">
+
+        <form id="player_form" onsubmit="return false">
+          <label for="name">Name</label><input id="name" type="text" autofocus/>
+          <label for="base">Base</label><input id="base" type="text" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="modifier">Modifier</label><input id="modifier" type="text" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+          <label for="damage">Damage</label><input id="damage" type="text" pattern="^\-?[0-9]{1,3}" title="Only numbers between -999 and 999"/>
+        </form>
+
+        <div>
+          <a href="#main" id="accept_edit_player" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptEditPlayer()">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+          <label id="invalid_data_warning" style="color:red;">There are invalid data (base, modifier and damage must be numbers between -999 and 999)</label>
+        </div>
+      </div> <!-- content -->
+
+    </div> <!-- /page player -->
+
+    <!-- ###################################################################### -->
+
+    <div data-role="page" id="warning-remove" data-theme="e">
+      <div data-role="header">
+        <h1>Warning: are you sure?</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <div>
+            <label id="remove_label" data-theme="a">texto</label>
+          </div>
+
+          <a href="#main" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptRemovePlayer();">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+        </div>
+      </div> <!-- content -->
+
+    </div> <!-- /page player -->
+
+    <!-- ###################################################################### -->
+
+    <div data-role="page" id="hit_page">
+      <div data-role="header">
+        <h1>Hit player!</h1>
+      </div>
+
+      <div data-role="content">
+        <form id="hit_form" onKeyDown="return supressEnter(event)">
+          <label for="hit_value">Hit value</label><input id="hit_value" type="text" pattern="[0-9]{1,3}" title="Only numbers between 0 and 999" autofocus />
+          <label id="invalid_hit_warning" style="color:red;">Hit needs to be a number between -999 and 999</label>
+        </form>
+        <div>
+          <a href="#main" id="accept_hit_player" data-role="button" data-theme="b" data-inline="true" onClick="onHitPlayer()">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+        </div>
+      </div> <!-- content -->
+
+    </div> <!-- /page player -->
+
+    <!-- ###################################################################### -->
+
+    <div data-role="page" id="table_page">
+      <div data-role="header">
+        <h1>Menu</h1>
+      </div>
+
+      <div data-role="content">
+        <div>
+          <label><input type="checkbox" name="checkbox-name" id="checkbox-name"/>Name</label>
+          <label><input type="checkbox" name="checkbox-base" id="checkbox-base"/>Base</label>
+          <label><input type="checkbox" name="checkbox-modifier" id="checkbox-modifier"/>Modifier</label>
+          <label><input type="checkbox" name="checkbox-diceRoll" id="checkbox-diceRoll"/>Dice Roll</label>
+          <label><input type="checkbox" name="checkbox-open" id="checkbox-open"/>Open</label>
+          <label><input type="checkbox" name="checkbox-total" id="checkbox-total"/>Total</label>
+          <label><input type="checkbox" name="checkbox-damage" id="checkbox-damage"/>Damage</label>
+          <label><input type="checkbox" name="checkbox-surprise" id="checkbox-surprise"/>Surprise</label>
+        </div>
+
+        <div>
+          <a href="#main" id="accept_change_table" data-role="button" data-theme="b" data-inline="true" onClick="onAcceptChangeTable()">Accept</a>
+          <a href="#main" data-role="button" data-theme="a" data-inline="true">Cancel</a>
+        </div>
+
+      </div> <!-- content -->
+
+      <div data-role="footer">
+        <a href="#main" data-role="button" data-icon="back" data-theme="b">Back</a>
+      </div>
+    </div> <!-- /page menu -->
+
+
+  </body>
+</html>
