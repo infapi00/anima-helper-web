@@ -269,9 +269,11 @@ function onAcceptEditPlayer() {
     var base = parseInt($("#base").val()) || 0;
     var modifier = parseInt($("#modifier").val()) || 0;
     var damage = parseInt($("#damage").val()) || 0;
+    var previousTotal = 0;
 
     if (editingMode) {
         player = getSelectedPlayer();
+        previousTotal = player.getTotalRoll();
     } else { // So adding a player
         player = new Player();
         debugLog("Adding player=("+name+","+base+","+modifier+","+damage+")");
@@ -283,6 +285,8 @@ function onAcceptEditPlayer() {
     player.modifier = modifier;
     player.damage = damage;
 
+    if (previousTotal != player.getTotalRoll())
+        updateAllSurprises();
     updateTable();
 }
 
@@ -312,6 +316,10 @@ function cleanEditPlayerForm() {
     $("#damage").val("");
 }
 
+function updateAllSurprises() {
+    for (i = 0; i < players.length; i++)
+        players[i].updateSurprise(players);
+}
 
 function newRound () {
     var i = 0;
@@ -319,8 +327,7 @@ function newRound () {
     for (i = 0; i < players.length; i++)
         players[i].newRound();
 
-    for (i = 0; i < players.length; i++)
-        players[i].updateSurprise(players);
+    updateAllSurprises();
 
     updateTable();
 }
